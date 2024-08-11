@@ -1,0 +1,477 @@
+/*
+First time? Check out the tutorial game:s
+https://sprig.hackclub.com/gallery/getting_started
+
+@title: GRAMPERS...THE SLAUGHTER HOUSE
+@author: 
+@tyour ags: []
+@addedOn: 2024-00-00
+*/
+
+const player = "p"
+const grampers = "g"
+const wall = "w"
+const bg = "b"
+const trigger ="t"
+const trophy = "y"
+const youwin735 = "j"
+// Set the legand for sprites
+setLegend(
+  [player, bitmap`
+....CC.CC.CC....
+...CCCCCCCCCC...
+.CCCCCCCCCCCCC..
+CCCCCCCCCCCCC...
+..CCC999999CCCC.
+.CCC99999999CC..
+...9927992799...
+...9999999999...
+....99333399....
+.....999999.....
+.....00000......
+.9000000000009..
+.....55555......
+.....5...5......
+.88888...88888..
+.888.8...8.888..`],
+  [grampers,bitmap`
+...L...LL...L...
+..LLCCCCCCCCLL..
+..LC000CC000CL..
+...CC50CC05CC..1
+...C3CCCCCC3C.1.
+...C33333332229.
+......CCCC......
+....F0CCCC0D....
+.CCCD0DFDF0FCCC.
+.C..F0FDFD0D.000
+.C..D0DFDF0F.0C0
+.C..F0FDFD0D.0.0
+....00000000.0.0
+....FFF00FFF.0.0
+....FFF00FFF.000
+..555550055555..` ],
+  [wall, bitmap`
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333`],
+  [bg,bitmap`
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777
+7777777777777777`],
+  [trigger,bitmap`
+0000000000000000
+0330000000000000
+0300000030030030
+0330303000333030
+0300030030030000
+0330303030030030
+0000000000000000
+0000000000000000
+................
+................
+................
+................
+................
+................
+................
+................`],
+  [trophy,bitmap`
+................
+..666666666666..
+..6.64633656.6..
+..6.66666666.6..
+..666666666666..
+......6666......
+.......66.......
+.......66.......
+......6666......
+...0000000000...
+...0000000000...
+..000000000000..
+................
+................
+................
+................`],
+  [youwin735,bitmap`
+................
+.3...3.333.3.3..
+.3...3.3.3.3.3..
+.33333.3.3.3.3..
+...3...3.3.3.3..
+...3...333.333..
+................
+................
+.3...3.333.333..
+.3...3..3..3.3..
+.3.3.3..3..3.3..
+.33333.333.3.3..
+................
+................
+................
+................`],
+)
+// Set the background using the bg bitmap key 
+setSolids([wall, grampers, player])
+
+let level = 12
+const levels = [
+  map`
+wwwwwwwwwwwwwwwwwwww
+w........w......ww.w
+w...w....w.w..w.wwww
+wp..w.w..w...w..wwgw
+wwwww....ww........w
+w.......ww.www.w.w.w
+w..w..w...w......w.w
+w..w..........w....w
+w.www.........w....w
+w...w.w..w....w..w.w
+w...w..w.w.......w.w
+ww..w.........w....w
+wwwww..w...w.......w
+ww.w.w..www.....w..w
+w..w...........w...w
+w..........w.w..w..w
+wwww..w.w......wwwww
+w..ww......w...w...w
+w.......w.........tw
+wwwwwwwwwwwwwwwwwwww`,
+  map`
+wwwwww
+wwp..w
+ww.w.w
+ww.w.w
+ww.w.w
+ww.w.w
+ww.w.w
+ww.w.w
+ww.w.w
+ww.w.w
+ww.w.w
+wg...w
+wt...w
+wwwwww`,
+  map`
+wwwwwwwwww
+w...ww..gw
+w...ww...w
+w.w.ww...w
+w..www...w
+w..www...w
+w..ww....w
+w..w..p..w
+w..wwww..w
+w..wwww..w
+w....w...w
+w.t..w...w
+w....w...w
+w........w
+w..w.....w
+w.ww...w.w
+wwwwwwwwww`,
+  map`
+wwwwwwwwww
+wt.......w
+w.w....w.w
+w...w..w.w
+w.g....w.w
+w......w.w
+w..ww....w
+w..wp....w
+w........w
+wwwwwwwwww`,
+  map`
+wwwwwwww
+w......w
+w..t.w.w
+wgw.w.pw
+wwwwwwww`,
+  map`
+wwwwwwwwwwwwwwwwwwwwwwww
+wg.....................w
+w..ww............ww.ww.w
+w...ww...www..w......w.w
+w....w.......p....w....w
+w.....................tw
+wwwwwwwwwwwwwwwwwwwwwwww`,
+  map`
+wwwwww
+wwwp.w
+www..w
+www..w
+wwww.w
+www..w
+wwww.w
+www..w
+www..w
+wtw..w
+w...gw
+wwwwww`,
+  map`
+wwwwwwwwwwwwww
+w...g.......tw
+w..www.......w
+w.w..w.......w
+w....w.......w
+w....w.......w
+w....ww..wwwww
+w...wwww.....w
+w...w.w.p....w
+w.....w......w
+w.....w......w
+w.....w.....ww
+w.....ww...www
+wwwwwwwwwwwwww`,
+  map`
+wwwwwwwwwwwwwwwwwwwwwwwwww
+wp.......................w
+wwww.............ww......w
+w..w..wwww...w...ww..ww..w
+w..w..g..tw..w...ww...w..w
+w..w......w..w........w..w
+w..ww.....w......w...ww..w
+w...w.....w.....ww...w...w
+w....w....ww...ww...w....w
+w....w.....wwww.....w....w
+w....w.............w.....w
+w....w....wwwwwwww.w.....w
+w........................w
+wwwwwwwwwwwwwwwwwwwwwwwwww`,
+  map`
+wwwwwwwwwwwwwwww
+wp.............w
+wwwww..wwwwww..w
+wg..w..........w
+w..............w
+wwwwwww..wwwwwww
+w.....w........w
+wwwww.wwwwww.www
+w..............w
+wwwww.wwwww....w
+wt......w......w
+wwwwwwwwwwwwwwww`,
+  map`
+wwwwww
+wp...w
+www..w
+w.w..w
+w.g..w
+w.w..w
+w.w..w
+w.w..w
+w.w..w
+w..w.w
+w....w
+wtw..w
+www..w
+w....w
+w.ww.w
+w....w
+wwwwww`,
+  map`
+wwwwwwwwwwww
+w.p........w
+w....wwww..w
+w....w...w.w
+w...wt.....w
+w..wwww..w.w
+wg.w..www.ww
+ww....w..w.w
+w.w...w.w..w
+ww...www...w
+www.w......w
+wwwwwwwwwwww`,
+  map`
+wwwwwwwwwww
+wt.......pw
+w....w..w.w
+w.......w.w
+w......g.ww
+wwwwwwwwwww`,
+  map`
+wwwwwwwwwwwwww
+w.p....w.w.tww
+w....w.....www
+ww..........gw
+wwwwwwwwwwwwww`,
+  map`
+wwwwwwwwwwwwww
+w...........tw
+w...........ww
+wwwwww.wwwwwww
+w............w
+w............w
+w..g.........w
+w.ww.www.wwwww
+w.....p......w
+w.....w......w
+wwwwwwwwwwwwww`,
+  map`
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w.w............................wtw
+w...w.g.wp....w...w..w.....w.....w
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww`,
+  map`
+wwwwwwwwwwww
+w..........w
+wwww....ww.w
+wtgw..wp.w.w
+w....ww..w.w
+w....w...w.w
+w..ww....w.w
+w.ww....w..w
+w.....ww...w
+w.....w....w
+w..........w
+wwwwwwwwwwww`,
+  map`
+wwwwwwwwwwwwwww
+wt......w..w..w
+w..www..ww....w
+w.ww..w.w.....w
+w.....g.ww...ww
+w...w..w.w....w
+w.......w....ww
+w......ww.w...w
+w....w.pw.....w
+w.....w.......w
+ww............w
+w..w.......ww.w
+w...........www
+w......w......w
+wwwwwwwwwwwwwww`,
+  map`
+y
+j`,
+]
+
+let chasingTime = 0;
+
+const isWithinOnePixel = (x1, y1, x2, y2) => {
+  return Math.abs(x1 - x2) <= 1 && Math.abs(y1 - y2) <= 1;
+};
+
+const checkTouching = () => {
+  const playerSprite = getFirst(player);
+  if (!playerSprite) {return}
+
+  const grampersSprite = getFirst(grampers);
+  const exitSprite = getFirst(trigger);
+
+  if (!grampersSprite || !exitSprite) {return}
+
+  const pX = playerSprite.x
+  const pY = playerSprite.y
+  
+  if (isWithinOnePixel(pX, pY, grampersSprite.x, grampersSprite.y)) {
+    setMap(levels[level])
+  } else if (pX === exitSprite.x && pY === exitSprite.y) {
+    level++
+    if (levels[level]) {
+      setMap(levels[level])
+    } else {
+    }
+  }
+}
+
+setMap(levels[level])
+setPushables({
+  [ player ]: []
+})
+
+onInput("w", () => {getFirst(player).y -= 1;})
+onInput("a", () => {getFirst(player).x -= 1;})
+onInput("d", () => {getFirst(player).x += 1;})
+onInput("s", () => {getFirst(player).y += 1;})
+
+setInterval(checkTouching, 500)
+
+// Define the speed of Grampers (in milliseconds)
+const grampersSpeed = 500; // This value determines how fast Grampers moves (lower is faster)
+
+// Function to handle the chasing behavior with speed control
+const chasePlayerWithSpeed = () => {
+  if (chasingTime < 60) {
+    const playerSprite = getFirst(player);
+    const grampersSprite = getFirst(grampers);
+
+    // Logic to chase the player (Example: move vertically towards the player)
+    if (playerSprite.y < grampersSprite.y) {
+      grampersSprite.y -= 1; // Move up towards the player
+    } else if (playerSprite.y > grampersSprite.y) {
+      grampersSprite.y += 1; // Move down towards the player
+    }
+
+    if (playerSprite.x < grampersSprite.x) {
+      grampersSprite.x -= 1;
+    } else if (playerSprite.x > grampersSprite.x) {
+      grampersSprite.x += 1;
+    }
+
+    chasingTime++;
+
+    // Call chasePlayerWithSpeed function recursively after the specified speed for smooth movement
+    setTimeout(chasePlayerWithSpeed, grampersSpeed); // Move at the specified speed
+  }
+}
+
+// Start the chasePlayerWithSpeed function with speed control
+chasePlayerWithSpeed();
+
+// Function to handle the chasing behavior
+const chasePlayer = () => {
+  // Check if the chasing time is less than 86,400 seconds ( 1,440 minute)
+  if (chasingTime < 86,400) {
+    const playerSprite = getFirst(player);
+    const grampersSprite = getFirst(grampers);
+
+    // Logic to chase the player (Example: move vertically towards the player)
+    if (playerSprite.y < grampersSprite.y) {
+      grampersSprite.y -= 1; // Move up towards the player
+    } else if (playerSprite.y > grampersSprite.y) {
+      grampersSprite.y += 1; // Move down towards the player
+    }
+
+    if (playerSprite.x < grampersSprite.x) {
+      grampersSprite.x -= 1;
+    } else if (playerSprite.y > grampersSprite.x) {
+      grampersSprite.x += 1;
+    }
+
+    // Increment the chasing time by 1 second
+    chasingTime++;
+
+    // Call chasePlayer function recursively after a short delay for smooth movement
+    setTimeout(chasePlayer, 1000); // Move every 1 second
+  }
+}
+
+// Start the chasePlayer function to initiate the chasing
+chasePlayer();

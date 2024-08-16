@@ -18,7 +18,7 @@ const wallig= "z"
 const toiletwateringhole= "k"
 const ewjvhabfb="q"
 const myst = "o"
-
+const bg = "b"
 setLegend(
   [ player, bitmap`
 ................
@@ -190,15 +190,32 @@ DDDD8DDDDD8DDDDD`],
 ................
 ................
 ................`],
+  [bg,bitmap`
+D444D4444444444D
+44D44D444D44D444
+444D44D4444444D4
+4D44444444444444
+44444D44D444D444
+D4444444444444D4
+44D4444D44D44444
+4444D44444444D44
+4444444D44D4D444
+4D4444444444444D
+4444D444D4D4D4D4
+444444D444444444
+44D4D44D4444D4D4
+444D444444D44444
+4444444D4444D44D
+4D44D44444D44D44`],
 )
-
+// Set the background using the bg bitmap key
 setSolids([wallig,gardenbed,player,myst ])
 
 let level = 0
 const levels = [
   map`
 zzzzzzzzzzzzzzzzzzzz
-zzzzzzqztzczwz.....z
+zzzzzzzzzzzzzz.....z
 zzzzzz.......z...g.z
 zk...........z.....z
 zzzzzz.......z...g.z
@@ -213,84 +230,15 @@ z............z...g.z
 z.....o......z.....z
 z.....o......z...g.z
 z............z.....z
-zzzzzzzzzzzzzzzzzzzz,`,
-  map`
-zzzzzzzzzzzzzzzz
-z.g.g.g.g.g.g..z
-zo.............z
-zzzzzzz...zzzzzz
-zzcwtqzz.zz...zz
-z..............z
-z..............z
-zzzzz..........z
-z...z..........z
-z...zz.........z
-z....z........pz
-z..............z
-zk.............z
-zzzzzz.........z
-zzzzzzzzzzzzzzzz`,
-  map`
-zzzzzzzzzzzzzzzzz
-zzc............tz
-zzzz............z
-zq.z............z
-z..zzzzz..z.....z
-z.....zzpzz.....z
-z.....z.wz......z
-z.....zzz.....o.z
-z...............z
-zk.........g.g..z
-zzzzzzzzzzzzzzzzz`,
-  map`
-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-zw.......................q.........z
-z........................z.........z
-z..............c.........z.........z
-z.........z..............z.........z
-z.........z.......kzzzzzzz.........z
-z....o....z.......zzt..............z
-z.........zzzzzzzzz................z
-z...g..............................z
-z.p................................z
-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz`,
-  map`
-zzzzzzzzzzzzzzzzzzzzz
-z...................z
-z..........g..g..g..z
-z...................z
-z....c..............z
-z...zzz.............z
-z.....zzzzzz........z
-z..........zz.......z
-z...........zz......z
-z......g..g..z......z
-z.............z.....z
-z.zzzz.......pz.....z
-zzzt.zz......zq.....z
-zz....zz....zz......z
-z......zz..zz.......z
-z.......zzzz........z
-z........w..........z
-z.............g..g.zz
-z..................zz
-zk.................zz
-zzzzzzzzzzzzzzzzzzzzz`,
-  map`
-zzzzzzzzz
-zk.....pz
-z.zzzc..z
-z.qtzw..z
-z...z...z
-z..o....z
-z.zz..g.z
-z.......z
-zzzzzzzzz`,
+zzzzzzzzzzzzzzzzzzzz,`
+  map``,
+  map``,
+  map``,
+  map``,
   map``,
 ]
 
-setMap(levels
-[level])
+setMap(levels[level])
 
 setPushables({
   [myst]: [watermelon, tomato, ewjvhabfb, carrot],

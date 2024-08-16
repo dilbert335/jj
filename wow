@@ -213,31 +213,54 @@ z............z...g.z
 z.....o......z.....z
 z.....o......z...g.z
 z............z.....z
-zzzzzzzzzzzzzzzzzzzz,`
+zzzzzzzzzzzzzzzzzzzz,`,
   map`
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................`,
-  map``,
-  map``,
+zzzzzzzzzzzzzzzz
+z.g.g.g.g.g.g..z
+zo.............z
+zzzzzzz...zzzzzz
+zzcwtqzz.zz...zz
+z..............z
+z..............z
+zzzzz..........z
+z...z..........z
+z...zz.........z
+z....z........pz
+z..............z
+zk.............z
+zzzzzz.........z
+zzzzzzzzzzzzzzzz`,
+  map`
+zzzzzzzzzzzzzzzzz
+zzc............tz
+zzzz............z
+zq.z............z
+z..zzzzz..z.....z
+z.....zzpzz.....z
+z.....z.wz......z
+z.....zzz.....o.z
+z...............z
+zk.........g.g..z
+zzzzzzzzzzzzzzzzz`,
+  map`
+zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+zw.......................q.........z
+z........................z.........z
+z..............c.........z.........z
+z.........z..............z.........z
+z.........z.......kzzzzzzz.........z
+z....o....z.......zzt..............z
+z.........zzzzzzzzz................z
+z...g..............................z
+z.p................................z
+zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz`,
   map``,
   map``,
   map``,
 ]
 
-setMap(levels[level])
+setMap(levels
+[level])
 
 setPushables({
   [myst]: [watermelon, tomato, ewjvhabfb, carrot],
